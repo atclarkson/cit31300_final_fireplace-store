@@ -1,3 +1,17 @@
 .App {
   text-align: center;
 }
+
+.red-back {
+  background-color: red;
+  border: red solid 10px;
+}
+
+.blue-back {
+  background-color: blue;
+  border: blue solid 10px;
+}
+
+.dialog-img {
+  max-height: 300px;
+}
