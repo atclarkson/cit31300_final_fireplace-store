@@ -13,8 +13,9 @@ function App() {
               <Nav/>
               <Switch>
                   <Route exact path="/" component={Store}/>
-                  <Route exact path="/cart" component={Cart}/>
-                  <Route exact path="/admin" component={Admin}/>
+                  <Route path="/store" component={Store}/>
+                  <Route path="/cart" component={Cart}/>
+                  <Route path="/admin" component={Admin}/>
               </Switch>
           </div>
       </Router>
