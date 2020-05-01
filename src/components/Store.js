@@ -17,24 +17,25 @@ import Typography from "@material-ui/core/Typography";
 const useStyles = makeStyles({
   root: {
     minWidth: 275,
-    maxWidth: 345
+    maxWidth: 275
   },
   container: {
     display: "flex",
     flexFlow: "row wrap",
-    margin: 10,
+    margin: 25,
     justifyContent: "space-around"
   },
   title: {
     fontSize: 14
   },
   pos: {
-    marginBottom: 12
+    marginBottom: 25
   },
   media: {
     margin: 5,
     padding: 5,
-    height: 500
+    height: 350,
+    maxWidth: 350
   }
 });
 
@@ -96,7 +97,7 @@ function Store() {
     shortDesc: "",
   });
 
-
+  // when picture is clicked. fire the dialog modal and set the current product to a holding product for display
   const handleClickOpen = (id) => {
     setOpen(true);
     setDialogProduct({
@@ -108,11 +109,12 @@ function Store() {
     })
   };
 
-
+  // attached to close button, sets the status of open bool to false.
   const handleClose = () => {
     setOpen(false);
   };
 
+  // open a connection to the database
   const db = fire.firestore();
 
 
@@ -155,18 +157,11 @@ function Store() {
             ? "red-back"
             : product.stock < 10
             ? "blue-back"
-            : ""
+            : "black-back"
         }`}
         onClick={()=>handleClickOpen(idx)}
       >
         <CardActionArea
-          className={`${
-            product.stock > 100
-              ? "red-back"
-              : product.stock < 10
-              ? "blue-back"
-              : ""
-          }`}
         >
           <CardMedia
             component="img"
@@ -176,9 +171,6 @@ function Store() {
             alt={product.name}
           />
         </CardActionArea>
-        {/*<CardActions>*/}
-        {/*    <Button size="small" variant="contained" color="primary">Edit</Button>*/}
-        {/*</CardActions>*/}
       </Card>
     </div>
   ));

@@ -5,12 +5,20 @@
 .red-back {
   background-color: red;
   border: red solid 10px;
+  margin: 15px;
 }
 
 .blue-back {
   background-color: blue;
   border: blue solid 10px;
+  margin: 15px;
 }
+.black-back {
+  background-color: white;
+  border: black solid 10px;
+  margin: 15px;
+}
+
 
 .dialog-img {
   max-height: 300px;
