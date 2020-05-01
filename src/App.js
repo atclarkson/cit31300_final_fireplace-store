@@ -1,25 +1,23 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import Nav from "./components/Nav";
+import Store from "./components/Store";
+import Cart from "./components/Cart";
+import Admin from "./components/Admin";
+import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Deps installed
-        </a>
-      </header>
-    </div>
+      <Router>
+          <div className="App">
+              <Nav/>
+              <Switch>
+                  <Route exact path="/" component={Store}/>
+                  <Route exact path="/cart" component={Cart}/>
+                  <Route exact path="/admin" component={Admin}/>
+              </Switch>
+          </div>
+      </Router>
   );
 }
 
