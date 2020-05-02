@@ -83,7 +83,12 @@ const DialogActions = withStyles(theme => ({
   }
 }))(MuiDialogActions);
 
-function Store() {
+function Store(props) {
+
+  React.useEffect(() => {
+    document.title = "Fireplace Store :: Store"
+  }, []);
+
   const classes = useStyles();
   const [products, setProducts] = React.useState([]);
 
@@ -95,6 +100,7 @@ function Store() {
     stock: null,
     price: null,
     shortDesc: "",
+    id: "",
   });
 
   // when picture is clicked. fire the dialog modal and set the current product to a holding product for display
@@ -106,11 +112,17 @@ function Store() {
       stock: products[id].stock,
       price: products[id].price,
       shortDesc: products[id].shortDesc,
+      id: products[id].id,
     })
   };
 
   // attached to close button, sets the status of open bool to false.
   const handleClose = () => {
+    setOpen(false);
+  };
+
+  const addToCart = (value) => {
+    props.updateCart(value);
     setOpen(false);
   };
 
@@ -207,7 +219,7 @@ function Store() {
         <DialogActions>
           {dialogProduct.stock > 0&&
 
-          <Button autoFocus onClick={handleClose} color="primary">
+          <Button autoFocus onClick={()=>addToCart(dialogProduct)} color="primary">
             Add to Cart
           </Button>}
 

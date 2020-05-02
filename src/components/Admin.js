@@ -26,6 +26,10 @@ const useStyles = makeStyles(theme => ({
 }));
 
 function Admin() {
+  React.useEffect(() => {
+    document.title = "Fireplace Store :: Admin"
+  }, []);
+
   const classes = useStyles();
   const [allProducts, setAllProducts] = React.useState([]);
   const [values, setValues] = React.useState({
@@ -57,14 +61,14 @@ function Admin() {
     db.collection("products").add(values);
     setChange(!changed);
   };
-  const deleteItem = id => {
-    db.collection("products")
-      .doc(id)
-      .delete()
-      .then(function() {
-        setChange(!changed);
-      });
-  };
+  // const deleteItem = id => {
+  //   db.collection("products")
+  //     .doc(id)
+  //     .delete()
+  //     .then(function() {
+  //       setChange(!changed);
+  //     });
+  // };
   const handleUpdate = prop => event => {
     setUpdate({ ...updated, [prop]: event.target.value });
   };

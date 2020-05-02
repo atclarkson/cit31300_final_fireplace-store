@@ -1,11 +1,13 @@
 import React from "react";
 import '../App.css';
-import {NavLink, Link} from 'react-router-dom';
+import {Link} from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
+import Badge from '@material-ui/core/Badge';
+import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -23,8 +25,15 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-function Nav() {
+function Nav(props) {
     const classes = useStyles();
+
+
+    const [cartValue, setCartValue] = React.useState(props.cart.length);
+
+    React.useEffect(() => {
+        setCartValue(props.cart.length);
+    }, [props.cart.length]);
 
     return (
         <div className={classes.root}>
@@ -38,7 +47,11 @@ function Nav() {
                             <Link className={classes.linkText} to={"/store"}>Store</Link>
                         </Button>
                         <Button color="inherit">
-                            <Link className={classes.linkText} to={"/cart"}>Cart</Link>
+                            <Link className={classes.linkText} to={"/cart"}>
+                                <Badge badgeContent={cartValue} color="secondary">
+                                    <ShoppingCartIcon />
+                                </Badge>
+                            </Link>
                         </Button>
 
                         <Button color="secondary" >

@@ -9,17 +9,24 @@ import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 
 function App() {
 
+    const cart = [];
+
+    const updateCart = (value) => {
+      cart.push(value);
+    };
+
 
   return (
       <Router>
           <div className="App">
-              <Nav/>
+              <Nav cart={cart}/>
               <Switch>
-                  <Route exact path="/" component={Store}/>
-                  <Route path="/store" component={Store}/>
-                  <Route path="/cart" component={Cart}/>
+                  <Route exact path="/" render={() => <Store updateCart={()=>updateCart()}/>}/>
+                  <Route path="/store" render={() => <Store updateCart={updateCart}/>}/>
+                  <Route path="/cart" render={() => <Cart cart={cart}/>}/>
                   <Route path="/admin" component={Admin}/>
               </Switch>
+
           </div>
       </Router>
   );
