@@ -206,9 +206,11 @@ function Store() {
         </DialogContent>
         <DialogActions>
           {dialogProduct.stock > 0&&
+
           <Button autoFocus onClick={handleClose} color="primary">
             Add to Cart
           </Button>}
+
         </DialogActions>
       </Dialog>
     </div>

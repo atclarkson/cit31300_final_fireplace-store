@@ -6,7 +6,10 @@ import Cart from "./components/Cart";
 import Admin from "./components/Admin";
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 
+
 function App() {
+
+
   return (
       <Router>
           <div className="App">
