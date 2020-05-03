@@ -12,9 +12,8 @@ import Paper from "@material-ui/core/Paper";
 import IconButton from "@material-ui/core/IconButton";
 import DeleteIcon from "@material-ui/icons/Delete";
 import Badge from "@material-ui/core/Badge";
-
+import {BrowserRouter as Redirect} from 'react-router-dom';
 import Button from "@material-ui/core/Button";
-
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -38,29 +37,29 @@ function Cart(props) {
   const [allProducts, setAllProducts] = React.useState(props.cart);
   const classes = useStyles();
 
-    const [updated, setUpdate] = React.useState({
-        name: "",
-        image: "",
-        stock: null,
-        shortDesc: "",
-        price: null
-    });
+  const [updated, setUpdate] = React.useState({
+    name: "",
+    image: "",
+    stock: null,
+    shortDesc: "",
+    price: null
+  });
 
-
-    const [showUpdate, toggleUpdate] = React.useState(false);
-    const [showDelete, toggleDelete] = React.useState(false);
+  const [showUpdate, toggleUpdate] = React.useState(false);
+  const [showDelete, toggleDelete] = React.useState(false);
+  const [orderPlaced, serOrderPlaced] = React.useState(false);
 
   React.useEffect(() => {}, [props.cart]);
 
-    // open a connection to the database
-    const db = fire.firestore();
+  // open a connection to the database
+  const db = fire.firestore();
 
   const deleteRow = idx => {
-      toggleDelete(true);
+    toggleDelete(true);
     if (idx > -1) {
       props.cart.splice(idx, 1);
       setAllProducts(props.cart);
-        toggleDelete(false);
+      toggleDelete(false);
     }
     console.log("delete");
   };
@@ -68,51 +67,47 @@ function Cart(props) {
   const purchaseCart = event => {
     console.log("Purchase Cart");
 
-      toggleUpdate(true);
-allProducts.map((ele) => (
-    db.collection("products")
+    toggleUpdate(true);
+    allProducts.map(ele =>
+      db
+        .collection("products")
         .doc(ele.id)
         .update({
-            name: ele.name,
-            image: ele.image,
-            stock: ele.stock - 1,
-            shortDesc: ele.shortDesc,
-            price: ele.price,
+          name: ele.name,
+          image: ele.image,
+          stock: ele.stock - 1,
+          shortDesc: ele.shortDesc,
+          price: ele.price
         })
         .then(function() {
-            setUpdate({
-                name: "",
-                image: "",
-                stock: null,
-                shortDesc: "",
-                price: null
-            });
-            toggleUpdate(false);
-        })));
-      setAllProducts([]);
+          setUpdate({
+            name: "",
+            image: "",
+            stock: null,
+            shortDesc: "",
+            price: null
+          });
+          toggleUpdate(false);
+        })
+    );
+    serOrderPlaced(true);
+    setAllProducts([]);
+    props.emptyCart();
   };
 
-
-
-  let productTable = allProducts.map((row, idx) => (
+  let productRows = allProducts.map((row, idx) => (
     <TableRow key={idx}>
       <TableCell component="th" scope="row">
-        <Badge badgeContent={row.stock < 10 ? "Low Stock!" : 0} color="primary">
+        <Badge badgeContent={parseInt(row.stock) < 10 ? "Low Stock!" : 0} color="primary">
           <img src={row.image} style={{ width: "100px" }} alt={row.name} />
         </Badge>
       </TableCell>
       <TableCell align="right">{row.name}</TableCell>
       <TableCell align="right">${row.price}</TableCell>
       <TableCell align="right">
-        {/*<Button*/}
-        {/*    variant="contained"*/}
-        {/*    color="primary"*/}
-        {/*    onClick={() => updateOn(row.id)}*/}
-        {/*>*/}
         <IconButton aria-label="delete" onClick={() => deleteRow(idx)}>
           <DeleteIcon />
         </IconButton>
-        {/*</Button>*/}
       </TableCell>
     </TableRow>
   ));
@@ -121,6 +116,7 @@ allProducts.map((ele) => (
     <>
       <h2>Shopping Cart</h2>
       {allProducts.length <= 0 && <h3>No Products in Cart</h3>}
+      {orderPlaced ? <Redirect to="/" /> : null}
       {allProducts.length > 0 && (
         <TableContainer component={Paper}>
           <Table className={classes.table} aria-label="simple table">
@@ -133,16 +129,16 @@ allProducts.map((ele) => (
                 <TableCell align="right"> </TableCell>
               </TableRow>
             </TableHead>
-            }
+
             <TableBody>
-              {productTable}
+              {productRows}
               {allProducts.length > 0 && (
                 <TableRow>
                   <TableCell rowSpan={3} />
                   <TableCell colSpan={1}>Price</TableCell>
                   <TableCell align="right">
                     {allProducts
-                      .map(({ price }) => price)
+                      .map(({ price }) => parseFloat(price))
                       .reduce((sum, i) => sum + i, 0)}
                   </TableCell>
                 </TableRow>
@@ -152,9 +148,11 @@ allProducts.map((ele) => (
         </TableContainer>
       )}
       {allProducts.length > 0 && (
+
         <Button variant="contained" onClick={purchaseCart}>
           Place Order
         </Button>
+
       )}
     </>
   );

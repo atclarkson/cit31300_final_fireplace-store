@@ -60,6 +60,13 @@ function Admin() {
   const submit = () => {
     db.collection("products").add(values);
     setChange(!changed);
+    setValues({
+      name: "",
+      image: "",
+      stock: null,
+      shortDesc: "",
+      price: null
+    });
   };
   // const deleteItem = id => {
   //   db.collection("products")

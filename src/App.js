@@ -9,10 +9,14 @@ import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 
 function App() {
 
-    const cart = [];
+    let cart = [];
 
     const updateCart = (value) => {
       cart.push(value);
+    };
+
+    const emptyCart = () => {
+        cart = [];
     };
 
 
@@ -21,9 +25,9 @@ function App() {
           <div className="App">
               <Nav cart={cart}/>
               <Switch>
-                  <Route exact path="/" render={() => <Store updateCart={()=>updateCart()}/>}/>
+                  <Route exact path="/" render={() => <Store updateCart={updateCart}/>}/>
                   <Route path="/store" render={() => <Store updateCart={updateCart}/>}/>
-                  <Route path="/cart" render={() => <Cart cart={cart}/>}/>
+                  <Route path="/cart" render={() => <Cart cart={cart} emptyCart={()=>emptyCart()}/>} />
                   <Route path="/admin" component={Admin}/>
               </Switch>
 
