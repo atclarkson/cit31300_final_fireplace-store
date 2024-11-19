@@ -35,6 +35,6 @@
   },
   "devDependencies": {
     "@material-ui/icons": "^4.9.1",
-    "firebase": "^7.14.2"
+    "firebase": "^10.9.0"
   }
 }
